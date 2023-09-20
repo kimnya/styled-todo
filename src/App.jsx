@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createGlobalStyle, css, styled } from 'styled-components';
 
 import TodoHead from './components/TodoHead';
@@ -48,15 +48,19 @@ const initialData = [
 	{ id: 3, title: '포트폴리오 계획서 작성', done: true },
 ];
 
+const defaultState = JSON.parse(localStorage['styled-todo'] || JSON.stringify(initialData));
+
 const App = () => {
-	const [todos, setTodos] = useState(initialData);
+	const [todos, setTodos] = useState(defaultState);
+
+	useEffect(() => {
+		localStorage['styled-todo'] = JSON.stringify(todos);
+	}, [todos]);
 
 	const nextId = useRef(4);
 
 	//추가함수
 	const fnAdd = (plan) => {
-		alert(plan);
-
 		setTodos((prevTodos) => {
 			return [
 				...prevTodos,
